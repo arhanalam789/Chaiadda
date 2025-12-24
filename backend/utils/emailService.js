@@ -6,6 +6,9 @@ const sendOtpEmail = async (email, otp) => {
       host: 'smtp.gmail.com',
       port: 465,
       secure: true, // Use SSL
+      connectionTimeout: 10000, // 10 seconds timeout
+      greetingTimeout: 5000,
+      debug: true, // Show debug logs
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
