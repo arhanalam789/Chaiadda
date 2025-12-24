@@ -35,12 +35,9 @@ const loginUser = asyncHandler(async (req, res) => {
     await sendOtpEmail(email, otp);
     res.json({ message: 'OTP sent to your email.' });
   } catch (error) {
-    console.error(`Email delivery failed. OTP for ${email} is: ${otp}`);
-    res.json({ 
-      message: `Email failed (check logs). OTP is ${otp}`,
-      // In production, you wouldn't send the OTP back, but for debugging this unblocks the user
-      devOtp: otp 
-    });
+    console.error('Email Send Error:', error);
+    res.status(500);
+    throw new Error('Email delivery failed. Please check backend logs.');
   }
 });
 

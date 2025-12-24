@@ -16,7 +16,7 @@ const sendOtpEmail = async (email, otp) => {
       connectionTimeout: 10000, 
       greetingTimeout: 5000,
       logger: true,
-      debug: true
+      debug: true,
       tls: {
         ciphers: 'SSLv3'
       }
