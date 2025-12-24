@@ -7,6 +7,7 @@ const sendOtpEmail = async (email, otp) => {
       port: 587,
       secure: false, // Use TLS
       requireTLS: true,
+      connectionTimeout: 5000, // 5s timeout to fail fast
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
