@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
+import API_URL from '../config';
 
 const AdminLoginPage = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ const AdminLoginPage = () => {
     e.preventDefault();
     setError('');
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/admin/login', { email, password });
+      const { data } = await axios.post(`${API_URL}/api/auth/admin/login`, { email, password });
       localStorage.setItem('adminInfo', JSON.stringify(data));
       localStorage.setItem('token', data.token);
       toast.success('Admin Access Granted');

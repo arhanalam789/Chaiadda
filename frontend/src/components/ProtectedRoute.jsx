@@ -6,7 +6,7 @@ const ProtectedRoute = () => {
   // but presence is enough for client-side routing protection.
   const token = localStorage.getItem('token');
 
-  return token ? <Outlet /> : <Navigate to="/login" replace />;
+  return token ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 export default ProtectedRoute;

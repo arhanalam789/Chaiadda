@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../components/Loader';
+import API_URL from '../config';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ const LoginPage = () => {
         return;
       }
       setLoading(true);
-      await axios.post('http://localhost:5000/api/auth/login', { email });
+      await axios.post(`${API_URL}/api/auth/login`, { email });
       setLoading(false);
       setShowOtp(true);
       toast.success('OTP sent successfully!');
@@ -37,7 +38,7 @@ const LoginPage = () => {
     setError('');
     try {
       setLoading(true);
-      const { data } = await axios.post('http://localhost:5000/api/auth/verify', { email, otp });
+      const { data } = await axios.post(`${API_URL}/api/auth/verify`, { email, otp });
       setLoading(false);
       localStorage.setItem('userInfo', JSON.stringify(data));
       localStorage.setItem('token', data.token);
