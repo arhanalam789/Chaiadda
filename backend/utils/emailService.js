@@ -4,15 +4,16 @@ const sendOtpEmail = async (email, otp) => {
   try {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 465,
-      secure: true, // Use SSL
-      connectionTimeout: 10000, // 10 seconds timeout
-      greetingTimeout: 5000,
-      debug: true, // Show debug logs
+      port: 587,
+      secure: false, // Use TLS
+      requireTLS: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
+      tls: {
+        ciphers: 'SSLv3'
+      }
     });
 
     const mailOptions = {

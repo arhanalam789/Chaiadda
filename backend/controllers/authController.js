@@ -31,9 +31,14 @@ const loginUser = asyncHandler(async (req, res) => {
   );
 
   // Send real email
-  await sendOtpEmail(email, otp);
-
-  res.json({ message: 'OTP sent to your email.' });
+  try {
+    await sendOtpEmail(email, otp);
+    res.json({ message: 'OTP sent to your email.' });
+  } catch (error) {
+    console.error('Email Send Error:', error);
+    res.status(500);
+    throw new Error(`Email failed: ${error.message}`);
+  }
 });
 
 // @desc    Verify OTP
