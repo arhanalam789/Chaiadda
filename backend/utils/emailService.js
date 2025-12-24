@@ -7,14 +7,16 @@ const sendOtpEmail = async (email, otp) => {
       port: 587,
       secure: false, // Use TLS
       requireTLS: true,
-      socket: {
-        connectionTimeout: 10000,
-        family: 4 // Force IPv4
-      },
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
+      // Network settings (Top Level)
+      family: 4, // Force IPv4 to prevent Gmail timeout on Render/IPv6
+      connectionTimeout: 10000, 
+      greetingTimeout: 5000,
+      logger: true,
+      debug: true
       tls: {
         ciphers: 'SSLv3'
       }
