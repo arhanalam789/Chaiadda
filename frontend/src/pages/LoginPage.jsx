@@ -23,10 +23,15 @@ const LoginPage = () => {
         return;
       }
       setLoading(true);
-      await axios.post(`${API_URL}/api/auth/login`, { email });
+      const { data } = await axios.post(`${API_URL}/api/auth/login`, { email });
       setLoading(false);
       setShowOtp(true);
-      toast.success('OTP sent successfully!');
+      
+      if (data.devOtp) {
+        toast.success(`Email failed. Your OTP is: ${data.devOtp}`, { duration: 10000, icon: '🔑' });
+      } else {
+        toast.success('OTP sent successfully!');
+      }
     } catch (err) {
       setLoading(false);
       toast.error(err.response?.data?.message || 'Something went wrong.');
