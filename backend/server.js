@@ -1,0 +1,51 @@
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Connect to Database
+connectDB();
+
+// Middleware
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://chai-adda-frontend.vercel.app', // Placeholder for production URL
+  'https://chai-adda-backend.onrender.com' // Placeholder for backend
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      // For now, allow all during dev if needed, or stick to strict list
+      // return callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'), false);
+      return callback(null, true); // Temporary permissible for debugging
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
+app.use(express.json());
+
+// Basic Route
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
+
+// Import Routes (Placeholders)
+const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
+
+app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
