@@ -14,9 +14,9 @@ connectDB();
 // Middleware
 const allowedOrigins = [
   'http://localhost:5173',
-  'http://localhost:3000',
-  'https://chai-adda-frontend.vercel.app', // Placeholder for production URL
-  'https://chai-adda-backend.onrender.com' // Placeholder for backend
+  'http://localhost:5174', // Vite default might switch ports
+  'https://chaiadda.vercel.app',
+  'https://chaiadda-1.onrender.com'
 ];
 
 app.use(cors({

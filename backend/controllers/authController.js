@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/User');
 const Admin = require('../models/Admin');
 const sendOtpEmail = require('../utils/emailService');
+const generateToken = require('../utils/generateToken');
 
 // @desc    User Login (Request OTP)
 // @route   POST /api/auth/login
@@ -53,8 +54,9 @@ const verifyOtp = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      role: 'user', // Hardcoded role for response
-      token: 'placeholder_token',
+      email: user.email,
+      role: 'user',
+      token: generateToken(user._id),
     });
   } else {
     res.status(401);
@@ -78,7 +80,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
       name: admin.name,
       email: admin.email,
       role: 'admin',
-      token: 'placeholder_admin_token',
+      token: generateToken(admin._id),
     });
   } else {
     res.status(401);
