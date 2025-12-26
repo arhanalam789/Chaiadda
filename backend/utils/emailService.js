@@ -13,13 +13,10 @@ const sendOtpEmail = async (email, otp) => {
       },
       // Network settings (Top Level)
       family: 4, // Force IPv4 to prevent Gmail timeout on Render/IPv6
-      connectionTimeout: 10000, 
-      greetingTimeout: 5000,
+      connectionTimeout: 30000, 
+      greetingTimeout: 10000,
       logger: true,
-      debug: true,
-      tls: {
-        ciphers: 'SSLv3'
-      }
+      debug: true
     });
 
     const mailOptions = {
