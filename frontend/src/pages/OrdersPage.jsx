@@ -105,77 +105,91 @@ const OrdersPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-black pb-20">
       <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-8">
-          My Orders
+        <h1 className="text-3xl font-black text-white italic uppercase tracking-tighter mb-10">
+          My <span className="text-chai shadow-[0_0_15px_rgba(220,176,126,0.3)]">Orders</span>
         </h1>
 
         {orders.length === 0 ? (
-          <div className="text-center text-gray-500 mt-10">
-            <p className="text-xl">No orders yet</p>
-            <p className="mt-2">Start by browsing our menu!</p>
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
+              <span className="text-3xl grayscale opacity-20">📜</span>
+            </div>
+            <p className="text-[10px] font-black text-chai/40 uppercase tracking-[0.3em]">No orders recorded yet</p>
           </div>
         ) : (
           <div className="space-y-6">
             {orders.map((order) => (
               <motion.div
                 key={order._id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-xl shadow-md p-6"
+                transition={{ duration: 0.2 }}
+                className="glass-card rounded-[2.5rem] p-6 sm:p-8 border-l-4 border-chai/20 transition-all hover:glow-chai"
               >
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-8">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800">
-                      Order #{order._id.slice(-6)}
+                    <h3 className="text-xl font-black text-white tracking-tighter uppercase italic">
+                      Label: #{order._id.slice(-6)}
                     </h3>
-                    <p className="text-sm text-gray-500">
-                      {new Date(order.placedAt).toLocaleString()}
+                    <p className="text-[10px] font-black text-white/20 uppercase tracking-widest mt-1">
+                      {new Date(order.placedAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
                     </p>
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(order.status)}`}>
+                  <span className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border ${
+                    order.status === 'Completed' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
+                    order.status === 'Pending' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
+                    order.status === 'Ready' ? 'bg-chai/10 text-chai border-chai/20 animate-pulse' :
+                    'bg-white/5 text-white/40 border-white/10'
+                  }`}>
                     {order.status}
                   </span>
                 </div>
 
                 {/* Order Items */}
-                <div className="space-y-2 mb-4">
+                <div className="space-y-3 mb-8">
                   {order.items.map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-sm">
-                      <span className="text-gray-700">
+                    <div key={idx} className="flex justify-between items-center">
+                      <span className="text-xs font-bold text-white/80">
                         {item.quantity}x {item.name}
                       </span>
-                      <span className="text-gray-600">₹{item.price * item.quantity}</span>
+                      <span className="text-xs font-black text-chai/60">₹{item.price * item.quantity}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="border-t pt-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-semibold text-gray-800">Total</span>
-                    <span className="text-xl font-bold text-indigo-600">₹{order.totalPrice}</span>
+                <div className="border-t border-white/5 pt-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <div>
+                      <span className="text-[9px] font-black text-white/20 uppercase tracking-widest block mb-1">Total Bill</span>
+                      <span className="text-2xl font-black text-chai glow-chai">₹{order.totalPrice}</span>
+                    </div>
+                    {order.status === 'Pending' && (
+                      <button
+                        onClick={() => cancelOrder(order._id)}
+                        className="bg-red-500/10 text-red-500 border border-red-500/20 px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[9px] hover:bg-red-500 hover:text-white transition-all"
+                      >
+                        Retract
+                      </button>
+                    )}
                   </div>
 
                   {order.pickupTime && (
-                    <p className="text-sm text-gray-600">
-                      Pickup by: {new Date(order.pickupTime).toLocaleString()}
-                    </p>
+                    <div className="bg-chai/5 border border-chai/10 rounded-2xl p-4 flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-chai animate-ping"></div>
+                      <p className="text-[10px] font-black text-chai uppercase tracking-widest">
+                        Ready for Pickup: {new Date(order.pickupTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </div>
                   )}
 
                   {order.rejectionReason && (
-                    <p className="text-sm text-red-600 mt-2">
-                      Reason: {order.rejectionReason}
-                    </p>
-                  )}
-
-                  {order.status === 'Pending' && (
-                    <button
-                      onClick={() => cancelOrder(order._id)}
-                      className="mt-2 text-red-600 hover:text-red-700 text-sm font-semibold"
-                    >
-                      Cancel Order
-                    </button>
+                    <div className="bg-red-500/5 border border-red-500/10 rounded-2xl p-4 mt-4">
+                      <p className="text-[10px] font-black text-red-500 uppercase tracking-widest">
+                        Note: {order.rejectionReason}
+                      </p>
+                    </div>
                   )}
                 </div>
               </motion.div>

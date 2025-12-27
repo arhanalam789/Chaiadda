@@ -51,39 +51,30 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 relative overflow-hidden">
-      {/* Background Shapes */}
-      <motion.div 
-        animate={{ x: [0, 100, 0], y: [0, -50, 0] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        className="absolute top-0 left-0 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"
-      ></motion.div>
-      <motion.div 
-        animate={{ x: [0, -100, 0], y: [0, 50, 0] }}
-        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        className="absolute top-0 right-0 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"
-      ></motion.div>
-      <motion.div 
-        animate={{ x: [0, 50, 0], y: [0, 100, 0] }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"
-      ></motion.div>
+    <div className="flex items-center justify-center min-h-screen p-4 bg-black relative overflow-hidden">
+      {/* Background Grid Animation */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      
+      {/* Decorative Glows */}
+      <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-chai/5 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-chai/5 rounded-full blur-[120px] pointer-events-none"></div>
+
 
 
       {loading && <Loader />}
 
       <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-sm overflow-hidden bg-white/80 backdrop-blur-md rounded-2xl shadow-2xl z-10 border border-white/20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-sm overflow-hidden glass-card rounded-[2.5rem] shadow-2xl z-10 border border-chai/20"
       >
-        <div className="px-6 py-8 md:px-8">
-          <div className="mb-6 text-center">
-            <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 tracking-tight">
-              Chai Adda
+        <div className="px-8 py-10">
+          <div className="mb-10 text-center">
+            <h1 className="text-4xl font-black text-white tracking-tighter uppercase italic">
+              CHAI <span className="text-chai shadow-[0_0_15px_rgba(220,176,126,0.3)]">ADDA</span>
             </h1>
-            <p className="mt-2 text-sm text-gray-600 font-medium">Canteen Login</p>
+            <p className="mt-3 text-[10px] text-chai uppercase tracking-[0.3em] font-black">Canteen Access</p>
           </div>
 
           <AnimatePresence mode="wait">
@@ -98,29 +89,29 @@ const LoginPage = () => {
                 className="space-y-6"
               >
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
-                    College ID
+                  <label htmlFor="email" className="block text-[10px] font-black text-chai uppercase tracking-widest ml-1 mb-2">
+                    Official ID
                   </label>
-                  <div className="relative mt-1">
+                  <div className="relative">
                     <input
                       type="email"
                       id="email"
                       required
-                      className="w-full px-4 py-3 bg-white/50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all hover:bg-white"
-                      placeholder="student@nst.rishihood.edu.in"
+                      className="w-full px-5 py-4 text-white bg-black border border-chai/20 rounded-2xl focus:ring-2 focus:ring-chai focus:border-transparent outline-none transition-all placeholder-chai/20 font-bold"
+                      placeholder="identity@university.edu"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
-                  <p className="mt-2 text-xs text-gray-500">
-                    Use your official university email.
+                  <p className="mt-3 text-[9px] text-chai/40 uppercase tracking-widest ml-1">
+                    Use your university email address.
                   </p>
                 </div>
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: 1.02, backgroundColor: "#ffffff", color: "#000000" }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full py-3.5 text-white font-bold bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                  className="w-full py-4 text-black font-black bg-chai rounded-2xl shadow-xl shadow-chai/10 transition-all uppercase tracking-widest"
                 >
                   Send OTP
                 </motion.button>
@@ -135,40 +126,42 @@ const LoginPage = () => {
                 onSubmit={handleOtpSubmit} 
                 className="space-y-6"
               >
-                <div>
-                  <label htmlFor="otp" className="block text-sm font-semibold text-gray-700">
-                    Enter Verification Code
-                  </label>
-                  <input
-                    type="text"
-                    id="otp"
-                    required
-                    maxLength={6}
-                    className="w-full px-4 py-3 mt-1 text-center text-2xl tracking-widest bg-white/50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all hover:bg-white"
-                    placeholder="000000"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                  />
-                  <p className="mt-3 text-xs text-center text-gray-500">
-                    Code sent to <span className="font-medium text-gray-700">{email}</span>
-                  </p>
-                </div>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  className="w-full py-3.5 text-white font-bold bg-gradient-to-r from-green-500 to-teal-500 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
-                >
-                  Verify & Login
-                </motion.button>
-                <div className="text-center">
-                   <button
-                    type="button"
-                    onClick={() => setShowOtp(false)}
-                    className="text-sm text-gray-500 hover:text-purple-600 transition-colors underline decoration-dotted"
+                <div className="space-y-6">
+                  <div>
+                    <label htmlFor="otp" className="block text-[10px] font-black text-chai uppercase tracking-widest ml-1 mb-2 text-center">
+                      Verification Code
+                    </label>
+                    <input
+                      type="text"
+                      id="otp"
+                      required
+                      maxLength={6}
+                      className="w-full px-5 py-4 text-white bg-black border border-chai/20 rounded-2xl focus:ring-2 focus:ring-chai focus:border-transparent outline-none transition-all text-center text-3xl font-black tracking-[0.5em] placeholder-chai/10"
+                      placeholder="000000"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                    />
+                    <p className="mt-4 text-[9px] text-center text-chai/40 uppercase tracking-widest">
+                      Sent to: <span className="text-white font-bold">{email}</span>
+                    </p>
+                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.02, backgroundColor: "#ffffff", color: "#000000" }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    className="w-full py-4 text-black font-black bg-chai rounded-2xl shadow-xl shadow-chai/10 transition-all uppercase tracking-widest"
                   >
-                    Start Over
-                  </button>
+                    Verify Account
+                  </motion.button>
+                  <div className="text-center">
+                    <button
+                      type="button"
+                      onClick={() => setShowOtp(false)}
+                      className="text-[9px] font-black text-chai/40 hover:text-chai transition-all uppercase tracking-[0.2em] decoration-chai/20 underline underline-offset-4"
+                    >
+                      Change Account
+                    </button>
+                  </div>
                 </div>
               </motion.form>
             )}

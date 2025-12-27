@@ -33,40 +33,36 @@ function Header() {
   if (!token) return null;
 
   return (
-    <header className={`${isAdmin ? 'bg-black border-b border-chai/20' : 'bg-white shadow-sm'} sticky top-0 z-50`}>
+    <header className="bg-black/90 backdrop-blur-xl border-b border-chai/10 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row justify-between items-center py-4 gap-4">
-          <Link to={isAdmin ? '/admin/orders' : '/menu'} className={`text-2xl font-black ${isAdmin ? 'text-chai italic uppercase tracking-tighter' : 'bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent font-bold'}`}>
-            Chai Adda
+        <div className="flex flex-col sm:flex-row justify-between items-center py-5 gap-4">
+          <Link to={isAdmin ? '/admin/orders' : '/menu'} className="text-2xl font-black text-white italic uppercase tracking-tighter">
+            CHAI <span className="text-chai shadow-[0_0_15px_rgba(220,176,126,0.3)]">ADDA</span>
           </Link>
 
           <nav className="flex items-center justify-center gap-3 sm:gap-6 w-full sm:w-auto overflow-x-auto no-scrollbar py-2 sm:py-0">
             {isAdmin ? (
               <>
-                <Link to="/admin/orders" className="text-chai hover:text-white transition-all font-bold uppercase tracking-widest text-[10px] sm:text-xs whitespace-nowrap px-2 py-1">
+                <Link to="/admin/orders" className="text-chai hover:text-white transition-all font-black uppercase tracking-widest text-[9px] whitespace-nowrap px-4 py-2 bg-white/5 rounded-xl border border-white/5">
                   Orders
                 </Link>
-                <Link to="/admin/menu" className="text-chai hover:text-white transition-all font-bold uppercase tracking-widest text-[10px] sm:text-xs whitespace-nowrap px-2 py-1">
+                <Link to="/admin/menu" className="text-chai hover:text-white transition-all font-black uppercase tracking-widest text-[9px] whitespace-nowrap px-4 py-2 bg-white/5 rounded-xl border border-white/5">
                   Menu
                 </Link>
               </>
             ) : (
               <>
-                <Link to="/menu" className="text-gray-700 hover:text-indigo-600 font-medium text-sm">
+                <Link to="/menu" className="text-chai hover:text-white transition-all font-black uppercase tracking-widest text-[9px] whitespace-nowrap px-4 py-2 bg-white/5 rounded-xl border border-white/5">
                   Menu
                 </Link>
-                <Link to="/orders" className="text-gray-700 hover:text-indigo-600 font-medium text-sm">
+                <Link to="/orders" className="text-chai hover:text-white transition-all font-black uppercase tracking-widest text-[9px] whitespace-nowrap px-4 py-2 bg-white/5 rounded-xl border border-white/5">
                   Orders
                 </Link>
               </>
             )}
             <button
               onClick={logout}
-              className={`ml-2 sm:ml-4 font-black uppercase tracking-tighter text-[10px] sm:text-xs px-4 py-2 rounded-xl transition-all ${
-                isAdmin 
-                  ? 'bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white' 
-                  : 'bg-red-600 text-white hover:bg-red-700'
-              }`}
+              className="ml-2 sm:ml-4 font-black uppercase tracking-widest text-[9px] px-6 py-2.5 rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all shadow-xl shadow-red-500/5"
             >
               Logout
             </button>
