@@ -4,6 +4,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useSocket } from '../context/SocketContext';
 import API_URL from '../config';
+import Loader from '../components/Loader';
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
@@ -97,11 +98,7 @@ const OrdersPage = () => {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
@@ -116,7 +113,7 @@ const OrdersPage = () => {
             <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
               <span className="text-3xl grayscale opacity-20">📜</span>
             </div>
-            <p className="text-[10px] font-black text-chai/40 uppercase tracking-[0.3em]">No orders recorded yet</p>
+            <p className="text-[10px] font-black text-chai/60 uppercase tracking-[0.3em]">No orders recorded yet</p>
           </div>
         ) : (
           <div className="space-y-6">
@@ -133,7 +130,7 @@ const OrdersPage = () => {
                     <h3 className="text-xl font-black text-white tracking-tighter uppercase italic">
                       Label: #{order._id.slice(-6)}
                     </h3>
-                    <p className="text-[10px] font-black text-white/20 uppercase tracking-widest mt-1">
+                    <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mt-1">
                       {new Date(order.placedAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
                     </p>
                   </div>
@@ -151,7 +148,7 @@ const OrdersPage = () => {
                 <div className="space-y-3 mb-8">
                   {order.items.map((item, idx) => (
                     <div key={idx} className="flex justify-between items-center">
-                      <span className="text-xs font-bold text-white/80">
+                      <span className="text-xs font-black text-chai uppercase italic tracking-tight">
                         {item.quantity}x {item.name}
                       </span>
                       <span className="text-xs font-black text-chai/60">₹{item.price * item.quantity}</span>
@@ -162,7 +159,7 @@ const OrdersPage = () => {
                 <div className="border-t border-white/5 pt-6">
                   <div className="flex justify-between items-center mb-6">
                     <div>
-                      <span className="text-[9px] font-black text-white/20 uppercase tracking-widest block mb-1">Total Bill</span>
+                      <span className="text-[9px] font-black text-white/50 uppercase tracking-widest block mb-1">Total Bill</span>
                       <span className="text-2xl font-black text-chai glow-chai">₹{order.totalPrice}</span>
                     </div>
                     {order.status === 'Pending' && (

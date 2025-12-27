@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import API_URL from '../config';
+import Loader from '../components/Loader';
 
 const MenuPage = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -112,11 +113,7 @@ const MenuPage = () => {
     : menuItems.filter(item => item.category === selectedCategory);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
@@ -180,16 +177,16 @@ const MenuPage = () => {
                   loading="lazy"
                   className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                 />
-                <div className="absolute top-4 right-4 px-3 py-1.5 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 text-[9px] font-black text-chai uppercase tracking-widest">
+                <div className="absolute top-4 right-4 px-3 py-1.5 rounded-xl bg-chai/20 backdrop-blur-md border border-chai/30 text-[9px] font-black text-white uppercase tracking-widest">
                   {item.category}
                 </div>
               </div>
               <div className="p-8 flex-1 flex flex-col">
-                <h3 className="text-xl font-black text-white italic tracking-tighter mb-2">{item.name}</h3>
-                <p className="text-xs text-chai/60 font-medium leading-relaxed mb-8 line-clamp-2">{item.description}</p>
+                <h3 className="text-xl font-black text-chai italic tracking-tighter mb-2">{item.name}</h3>
+                <p className="text-xs text-white/70 font-medium leading-relaxed mb-8 line-clamp-2">{item.description}</p>
                 <div className="mt-auto flex justify-between items-center">
                   <div className="flex flex-col">
-                    <span className="text-[9px] font-black text-white/20 uppercase tracking-widest mb-1">Standard Rate</span>
+                    <span className="text-[9px] font-black text-white/60 uppercase tracking-widest mb-1">Standard Rate</span>
                     <span className="text-2xl font-black text-chai glow-chai">₹{item.price}</span>
                   </div>
                   <button
@@ -222,7 +219,7 @@ const MenuPage = () => {
                   <div className="flex justify-between items-center">
                     <div>
                       <h2 className="text-2xl font-black text-white italic uppercase tracking-tighter">Order Bag</h2>
-                      <p className="text-[10px] text-chai/40 font-black uppercase tracking-widest mt-1">Review your selections</p>
+                      <p className="text-[10px] text-chai/60 font-black uppercase tracking-widest mt-1">Review your selections</p>
                     </div>
                     <button
                       onClick={() => setShowCart(false)}
@@ -239,7 +236,7 @@ const MenuPage = () => {
                       <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
                         <span className="text-3xl grayscale opacity-20">🛒</span>
                       </div>
-                      <p className="text-[10px] font-black text-chai/40 uppercase tracking-[0.3em]">Your bag is empty</p>
+                      <p className="text-[10px] font-black text-chai/60 uppercase tracking-[0.3em]">Your bag is empty</p>
                     </div>
                   ) : (
                     <div className="space-y-4">
@@ -247,8 +244,8 @@ const MenuPage = () => {
                         <div key={item._id} className="glass-card rounded-2xl p-5 border border-white/5">
                           <div className="flex justify-between items-start mb-4">
                             <div className="flex-1">
-                              <h3 className="font-black text-white tracking-tight italic uppercase text-sm">{item.name}</h3>
-                              <p className="text-chai font-black mt-1">₹{item.price}</p>
+                              <h3 className="font-black text-chai tracking-tight italic uppercase text-sm">{item.name}</h3>
+                              <p className="text-white font-black mt-1">₹{item.price}</p>
                             </div>
                             <button
                               onClick={() => removeFromCart(item._id)}
@@ -287,11 +284,11 @@ const MenuPage = () => {
                   <div className="p-8 border-t border-white/5 bg-black">
                     <div className="flex justify-between items-center mb-8">
                       <div>
-                        <span className="text-[10px] font-black text-white/20 uppercase tracking-widest block mb-1">Total Amount</span>
+                        <span className="text-[10px] font-black text-white/60 uppercase tracking-widest block mb-1">Total Amount</span>
                         <span className="text-3xl font-black text-chai glow-chai">₹{getCartTotal()}</span>
                       </div>
                       <div className="text-right">
-                        <span className="text-[10px] font-black text-white/20 uppercase tracking-widest block mb-1">Items</span>
+                        <span className="text-[10px] font-black text-white/60 uppercase tracking-widest block mb-1">Items</span>
                         <span className="text-xl font-black text-white">{cart.length} Labels</span>
                       </div>
                     </div>

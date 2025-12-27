@@ -103,7 +103,7 @@ const LoginPage = () => {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
-                  <p className="mt-3 text-[9px] text-chai/40 uppercase tracking-widest ml-1">
+                  <p className="mt-3 text-[9px] text-chai/60 uppercase tracking-widest ml-1">
                     Use your university email address.
                   </p>
                 </div>
@@ -141,7 +141,7 @@ const LoginPage = () => {
                       value={otp}
                       onChange={(e) => setOtp(e.target.value)}
                     />
-                    <p className="mt-4 text-[9px] text-center text-chai/40 uppercase tracking-widest">
+                    <p className="mt-4 text-[9px] text-center text-chai/60 uppercase tracking-widest">
                       Sent to: <span className="text-white font-bold">{email}</span>
                     </p>
                   </div>
@@ -157,7 +157,7 @@ const LoginPage = () => {
                     <button
                       type="button"
                       onClick={() => setShowOtp(false)}
-                      className="text-[9px] font-black text-chai/40 hover:text-chai transition-all uppercase tracking-[0.2em] decoration-chai/20 underline underline-offset-4"
+                      className="text-[9px] font-black text-chai/60 hover:text-chai transition-all uppercase tracking-[0.2em] decoration-chai/40 underline underline-offset-4"
                     >
                       Change Account
                     </button>

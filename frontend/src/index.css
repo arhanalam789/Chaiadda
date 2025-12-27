@@ -48,6 +48,8 @@
 }
 
 html, body {
+  background-color: #000000;
+  color: #ffffff;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
 }
