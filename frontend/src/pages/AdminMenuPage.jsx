@@ -123,16 +123,16 @@ const AdminMenuPage = () => {
 
   return (
     <div className="min-h-screen bg-black text-chai">
-      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-chai tracking-tight">
-            Menu Management
+      <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <h1 className="text-2xl sm:text-3xl font-black text-white italic uppercase tracking-tighter">
+            Menu Lab
           </h1>
           <button
             onClick={() => setShowModal(true)}
-            className="bg-chai text-black px-6 py-2 rounded-xl font-bold hover:bg-white transition-all shadow-lg shadow-chai/10"
+            className="w-full sm:w-auto bg-chai text-black px-8 py-4 sm:py-2.5 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-chai/10 text-xs"
           >
-            + Add New Item
+            + Create New Item
           </button>
         </div>
 
@@ -141,56 +141,62 @@ const AdminMenuPage = () => {
           {menuItems.map((item) => (
             <motion.div
               key={item._id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="glass-card rounded-2xl overflow-hidden border border-chai/10 hover:border-chai/30 transition-all hover:glow-chai"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="glass-card rounded-3xl overflow-hidden border border-chai/10 hover:border-chai/30 transition-all hover:glow-chai flex flex-col"
             >
-              <div className="relative">
+              <div className="relative group overflow-hidden">
                 <img
                   src={item.imageUrl}
                   alt={item.name}
-                  className="w-full h-52 object-cover opacity-80 hover:opacity-100 transition-opacity"
+                  className="w-full h-56 sm:h-52 object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
                 />
-                <div className={`absolute top-3 right-3 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${
+                <div className={`absolute top-4 right-4 px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest ${
                   item.isAvailable
                     ? 'bg-green-500/20 text-green-400 border border-green-500/30'
                     : 'bg-red-500/20 text-red-400 border border-red-500/30'
                 }`}>
-                  {item.isAvailable ? 'INSTOCK' : 'OUTOFSTOCK'}
+                  {item.isAvailable ? 'IN STOCK' : 'OUT OF STOCK'}
                 </div>
               </div>
 
-              <div className="p-5">
-                <h3 className="text-lg font-bold text-white mb-1">{item.name}</h3>
-                <p className="text-sm text-chai/60 line-clamp-2 h-10">{item.description}</p>
-                <div className="flex items-center justify-between mt-4">
-                  <span className="text-2xl font-black text-chai">₹{item.price}</span>
-                  <span className="text-[10px] font-bold text-chai/40 border border-chai/20 px-2 py-0.5 rounded uppercase">{item.category}</span>
+              <div className="p-6 flex-1 flex flex-col">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-xl font-black text-white italic tracking-tighter">{item.name}</h3>
+                  <span className="text-[9px] font-black text-white/30 border border-white/10 px-2 py-1 rounded-lg uppercase tracking-widest">{item.category}</span>
                 </div>
+                <p className="text-xs text-chai/60 font-medium line-clamp-2 leading-relaxed mb-6">{item.description}</p>
+                
+                <div className="mt-auto">
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Market Rate</span>
+                    <span className="text-2xl font-black text-chai glow-chai">₹{item.price}</span>
+                  </div>
 
-                <div className="flex gap-2 mt-6">
-                  <button
-                    onClick={() => toggleAvailability(item._id)}
-                    className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase transition-all ${
-                      item.isAvailable
-                        ? 'bg-white/5 text-white hover:bg-white/10'
-                        : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
-                    }`}
-                  >
-                    {item.isAvailable ? 'Disable' : 'Enable'}
-                  </button>
-                  <button
-                    onClick={() => openEditModal(item)}
-                    className="px-4 py-2 bg-chai/10 text-chai rounded-xl hover:bg-chai hover:text-black transition-all"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => deleteItem(item._id)}
-                    className="px-4 py-2 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all font-bold"
-                  >
-                    Fix
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => toggleAvailability(item._id)}
+                      className={`flex-[2] py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                        item.isAvailable
+                          ? 'bg-white/5 text-white border border-white/10 hover:bg-white/10'
+                          : 'bg-green-500/10 text-green-400 border border-green-500/20 hover:bg-green-500 hover:text-black'
+                      }`}
+                    >
+                      {item.isAvailable ? 'Delist' : 'Restore'}
+                    </button>
+                    <button
+                      onClick={() => openEditModal(item)}
+                      className="flex-1 py-4 bg-chai/10 text-chai border border-chai/20 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-chai hover:text-black transition-all"
+                    >
+                      Mod
+                    </button>
+                    <button
+                      onClick={() => deleteItem(item._id)}
+                      className="flex-1 py-4 bg-red-500/10 text-red-500 border border-red-500/20 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-red-500 hover:text-white transition-all"
+                    >
+                      Rem
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -200,103 +206,113 @@ const AdminMenuPage = () => {
 
       {/* Add/Edit Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/98 backdrop-blur-xl flex items-center justify-center z-[100] px-4 py-8 overflow-y-auto">
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="glass-card border border-chai/30 rounded-3xl p-8 max-w-md w-full"
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            className="glass-card border border-chai/30 rounded-[2.5rem] p-6 sm:p-10 max-w-lg w-full my-auto shadow-[0_20px_50px_rgba(220,176,126,0.1)]"
           >
-            <h2 className="text-2xl font-black text-white mb-6 uppercase tracking-wider">
-              {editingItem ? 'Edit Product' : 'New Creation'}
+            <h2 className="text-2xl sm:text-3xl font-black text-white mb-8 italic uppercase tracking-tighter">
+              {editingItem ? 'Mod Product' : 'New Creation'}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label className="block text-[10px] font-black text-chai/50 uppercase tracking-[0.2em] mb-2">
-                  Label
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 bg-black/50 border border-chai/20 rounded-xl text-white focus:ring-2 focus:ring-chai outline-none transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-black text-chai/50 uppercase tracking-[0.2em] mb-2">
-                  Insight
-                </label>
-                <textarea
-                  required
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  rows={2}
-                  className="w-full px-4 py-3 bg-black/50 border border-chai/20 rounded-xl text-white focus:ring-2 focus:ring-chai outline-none transition-all resize-none"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-4">
                 <div>
-                  <label className="block text-[10px] font-black text-chai/50 uppercase tracking-[0.2em] mb-2">
-                    Cost (₹)
+                  <label className="block text-[9px] font-black text-chai/40 uppercase tracking-[0.3em] mb-2 px-1">
+                    Label
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     required
-                    min="0"
-                    step="1"
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                    className="w-full px-4 py-3 bg-black/50 border border-chai/20 rounded-xl text-white focus:ring-2 focus:ring-chai outline-none transition-all"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold focus:ring-2 focus:ring-chai outline-none transition-all placeholder-white/10"
+                    placeholder="Signature Chai"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-black text-chai/50 uppercase tracking-[0.2em] mb-2">
-                    Section
+                  <label className="block text-[9px] font-black text-chai/40 uppercase tracking-[0.3em] mb-2 px-1">
+                    Insight
                   </label>
-                  <select
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-4 py-3 bg-black border border-chai/20 rounded-xl text-white focus:ring-2 focus:ring-chai outline-none transition-all appearance-none"
-                  >
-                    <option>Beverages</option>
-                    <option>Snacks</option>
-                    <option>Meals</option>
-                    <option>Desserts</option>
-                    <option>Other</option>
-                  </select>
+                  <textarea
+                    required
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    rows={2}
+                    className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold focus:ring-2 focus:ring-chai outline-none transition-all resize-none placeholder-white/10"
+                    placeholder="Brief description..."
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[9px] font-black text-chai/40 uppercase tracking-[0.3em] mb-2 px-1">
+                      Cost (₹)
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      min="0"
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                      className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold focus:ring-2 focus:ring-chai outline-none transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[9px] font-black text-chai/40 uppercase tracking-[0.3em] mb-2 px-1">
+                      Section
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={formData.category}
+                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                        className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold focus:ring-2 focus:ring-chai outline-none transition-all appearance-none cursor-pointer"
+                      >
+                        <option className="bg-black">Beverages</option>
+                        <option className="bg-black">Snacks</option>
+                        <option className="bg-black">Meals</option>
+                        <option className="bg-black">Desserts</option>
+                        <option className="bg-black">Other</option>
+                      </select>
+                      <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-chai/50">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[9px] font-black text-chai/40 uppercase tracking-[0.3em] mb-2 px-1">
+                    Media Source
+                  </label>
+                  <input
+                    type="url"
+                    value={formData.imageUrl}
+                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                    placeholder="https://images..."
+                    className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold focus:ring-2 focus:ring-chai outline-none transition-all placeholder-white/5 text-xs truncate"
+                  />
                 </div>
               </div>
 
-              <div>
-                <label className="block text-[10px] font-black text-chai/50 uppercase tracking-[0.2em] mb-2">
-                  Media Source
-                </label>
-                <input
-                  type="url"
-                  value={formData.imageUrl}
-                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                  placeholder="https://images.unsplash.com/..."
-                  className="w-full px-4 py-3 bg-black/50 border border-chai/20 rounded-xl text-white focus:ring-2 focus:ring-chai outline-none transition-all"
-                />
-              </div>
-
-              <div className="flex gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-6">
                 <button
                   type="submit"
-                  className="flex-[2] bg-chai text-black py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all"
+                  className="flex-[2] bg-chai text-black py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-chai/10"
                 >
-                  {editingItem ? 'UPDATE' : 'SAVE'}
+                  {editingItem ? 'Update' : 'Commit'}
                 </button>
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="flex-1 bg-white/5 text-white py-4 rounded-2xl font-bold hover:bg-white/10 transition-all uppercase text-xs"
+                  className="flex-1 bg-white/5 border border-white/10 text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-all"
                 >
-                  EXIT
+                  Exit
                 </button>
               </div>
             </form>

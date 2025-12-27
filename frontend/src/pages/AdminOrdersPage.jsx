@@ -179,33 +179,33 @@ const AdminOrdersPage = () => {
 
   return (
     <div className="min-h-screen bg-black text-chai">
-      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-chai tracking-tight">
-            Admin Dashboard
+      <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <h1 className="text-2xl sm:text-3xl font-black text-white italic uppercase tracking-tighter">
+            Dashboard
           </h1>
-          <div className="flex gap-4">
-            <div className="glass-card px-4 py-2 rounded-xl border border-chai/20 bg-chai/5">
-              <span className="text-[10px] font-black uppercase tracking-widest text-chai/50 block mb-1">Today's Revenue</span>
-              <span className="text-2xl font-black text-white glow-chai">₹{dailyStats.totalSales}</span>
+          <div className="flex gap-3 w-full sm:w-auto">
+            <div className="flex-1 sm:flex-none glass-card px-4 py-3 rounded-2xl border border-chai/20 bg-chai/5">
+              <span className="text-[9px] font-black uppercase tracking-widest text-chai/50 block mb-1">Today's Revenue</span>
+              <span className="text-xl sm:text-2xl font-black text-white glow-chai">₹{dailyStats.totalSales}</span>
             </div>
-            <div className="glass-card px-4 py-2 rounded-xl border border-chai/20">
-              <span className="text-[10px] font-black uppercase tracking-widest text-chai/50 block mb-1">Active Orders</span>
-              <span className="text-2xl font-black text-white">{activeOrders.length}</span>
+            <div className="flex-1 sm:flex-none glass-card px-4 py-3 rounded-2xl border border-chai/20">
+              <span className="text-[9px] font-black uppercase tracking-widest text-chai/50 block mb-1">Active</span>
+              <span className="text-xl sm:text-2xl font-black text-white">{activeOrders.length}</span>
             </div>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-none">
+        <div className="flex gap-2 mb-8 overflow-x-auto pb-4 no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
           {['All', 'Pending', 'Accepted', 'Ready', 'Completed'].map(status => (
             <button
               key={status}
               onClick={() => setFilter(status)}
-              className={`px-6 py-2 rounded-full whitespace-nowrap transition-all duration-300 border ${
+              className={`px-6 py-2.5 rounded-2xl whitespace-nowrap transition-all duration-300 border text-xs font-bold uppercase tracking-widest ${
                 filter === status
-                  ? 'bg-chai text-black border-chai shadow-[0_0_15px_rgba(220,176,126,0.3)]'
-                  : 'bg-transparent text-chai border-chai/30 hover:border-chai'
+                  ? 'bg-chai text-black border-chai shadow-[0_0_15px_rgba(220,176,126,0.2)]'
+                  : 'bg-white/5 text-chai/60 border-white/10 hover:border-chai/30 hover:text-chai'
               }`}
             >
               {status}
@@ -218,51 +218,54 @@ const AdminOrdersPage = () => {
           {filteredOrders.map((order) => (
             <motion.div
               key={order._id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className={`glass-card rounded-2xl p-6 border-l-4 transition-all hover:glow-chai ${getStatusColor(order.status)}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`glass-card rounded-3xl p-5 sm:p-6 border-l-4 transition-all hover:glow-chai ${getStatusColor(order.status)}`}
             >
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="text-lg font-bold text-white tracking-wide">
-                    Order #{order._id.slice(-6)}
+              <div className="flex justify-between items-start mb-6">
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-base sm:text-lg font-black text-white italic tracking-tighter truncate">
+                    ORDER #{order._id.slice(-6)}
                   </h3>
-                  <p className="text-sm text-chai/80">
-                    Customer: {order.user?.name || order.user?.email}
+                  <p className="text-xs text-chai/60 font-medium uppercase tracking-wider mt-1 truncate">
+                    {order.user?.name || order.user?.email}
                   </p>
-                  <p className="text-xs text-chai/50">
-                    {new Date(order.placedAt).toLocaleString()}
+                  <p className="text-[10px] text-white/20 font-bold uppercase tracking-[0.2em] mt-2">
+                    {new Date(order.placedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • {new Date(order.placedAt).toLocaleDateString()}
                   </p>
                 </div>
-                <span className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest border ${getStatusColor(order.status)}`}>
+                <span className={`px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border shrink-0 ml-4 ${getStatusColor(order.status)}`}>
                   {order.status}
                 </span>
               </div>
 
               {/* Items */}
-              <div className="space-y-2 mb-4 bg-black/40 rounded-xl p-4 border border-white/5">
+              <div className="space-y-3 mb-6 bg-white/5 rounded-2xl p-4 border border-white/5">
                 {order.items.map((item, idx) => (
-                  <div key={idx} className="flex justify-between text-sm">
-                    <span className="text-chai/90">{item.quantity}x {item.name}</span>
-                    <span className="font-bold text-white">₹{item.price * item.quantity}</span>
+                  <div key={idx} className="flex justify-between items-center text-xs">
+                    <span className="text-chai/90 font-bold flex items-center gap-2">
+                      <span className="w-5 h-5 flex items-center justify-center bg-chai/10 rounded-lg text-[10px]">{item.quantity}</span>
+                      {item.name}
+                    </span>
+                    <span className="font-black text-white">₹{item.price * item.quantity}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="flex justify-between items-center mb-6">
-                <span className="font-medium text-chai/70">Total Amount:</span>
+              <div className="flex justify-between items-center mb-8 px-1">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30">Total Value</span>
                 <span className="text-2xl font-black text-chai glow-chai">₹{order.totalPrice}</span>
               </div>
 
               {/* Actions based on status */}
               {order.status === 'Pending' && (
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-3">
                   <button
                     onClick={() => {
                       setSelectedOrder(order._id);
                       setPrepMinutes(15);
                     }}
-                    className="flex-1 bg-chai text-black py-3 rounded-xl font-bold hover:bg-white transition-all shadow-lg shadow-chai/10"
+                    className="flex-[2] bg-chai text-black py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-chai/10"
                   >
                     Accept
                   </button>
@@ -274,7 +277,7 @@ const AdminOrdersPage = () => {
                         rejectOrder(order._id);
                       }
                     }}
-                    className="flex-1 bg-transparent border border-red-500/50 text-red-500 py-3 rounded-xl font-bold hover:bg-red-500 hover:text-white transition-all"
+                    className="flex-1 bg-white/5 border border-white/10 text-red-400 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all"
                   >
                     Reject
                   </button>
@@ -284,22 +287,25 @@ const AdminOrdersPage = () => {
               {order.status === 'Accepted' && (
                 <button
                   onClick={() => updateStatus(order._id, 'Ready')}
-                  className="w-full bg-chai text-black py-3 rounded-xl font-bold hover:bg-white transition-all shadow-lg shadow-chai/10"
+                  className="w-full bg-chai text-black py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-chai/10"
                 >
                   Mark as Ready
                 </button>
               )}
 
               {order.status === 'Ready' && (
-                <div>
+                <div className="space-y-4">
                   {order.pickupTime && (
-                    <p className="text-sm text-chai/70 mb-3 italic">
-                     Expected Completion: {new Date(order.pickupTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </p>
+                    <div className="flex items-center justify-center gap-2 py-2 bg-green-500/5 rounded-xl border border-green-500/10">
+                      <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                      <p className="text-[10px] font-black text-green-400 uppercase tracking-widest">
+                       Pickup: {new Date(order.pickupTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </div>
                   )}
                   <button
                     onClick={() => updateStatus(order._id, 'Completed')}
-                    className="w-full bg-transparent border border-chai text-chai py-3 rounded-xl font-bold hover:bg-chai hover:text-black transition-all"
+                    className="w-full bg-white text-black py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-chai transition-all shadow-xl shadow-white/5"
                   >
                     Complete Transaction
                   </button>
