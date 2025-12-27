@@ -11,6 +11,7 @@ const MenuPage = () => {
   const [cart, setCart] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showCart, setShowCart] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const categories = ['All', 'Beverages', 'Snacks', 'Meals', 'Desserts', 'Other'];
 
@@ -23,9 +24,11 @@ const MenuPage = () => {
     }
   }, []);
 
-  const fetchMenuItems = async () => {
+  const fetchMenuItems = async (search = '') => {
     try {
-      const { data } = await axios.get(`${API_URL}/api/menu/available`);
+      const { data } = await axios.get(`${API_URL}/api/menu/available`, {
+        params: { search }
+      });
       setMenuItems(data);
     } catch (error) {
       toast.error('Failed to load menu');
@@ -33,6 +36,14 @@ const MenuPage = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchMenuItems(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const addToCart = (item) => {
     const existingItem = cart.find(c => c._id === item._id);
@@ -121,17 +132,30 @@ const MenuPage = () => {
       {/* Header */}
       <div className="bg-black/80 backdrop-blur-xl sticky top-0 z-40 border-b border-chai/10">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl sm:text-3xl font-black text-white italic uppercase tracking-tighter">
-              CHAI <span className="text-chai shadow-[0_0_15px_rgba(220,176,126,0.3)]">ADDA</span>
-            </h1>
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            {/* Search Bar */}
+            <div className="relative w-full sm:max-w-md group">
+              <input
+                type="text"
+                placeholder="Find your favorite chai or snack..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-white text-xs font-bold focus:bg-white/10 focus:border-chai/30 transition-all outline-none placeholder-white/20"
+              />
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-chai transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+            </div>
+
             <button
               onClick={() => setShowCart(!showCart)}
-              className="relative group bg-chai text-black px-6 py-2.5 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-chai/10 text-xs"
+              className="w-full sm:w-auto relative group bg-chai text-black px-6 py-3 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-chai/10 text-[10px]"
             >
               Order Bag ({cart.length})
               {cart.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-white text-black text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-black animate-bounce">
+                <span className="absolute -top-2 -right-2 bg-white text-black text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-black animate-bounce shadow-lg">
                   {cart.length}
                 </span>
               )}

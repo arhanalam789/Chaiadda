@@ -13,7 +13,14 @@ const getMenuItems = asyncHandler(async (req, res) => {
 // @route   GET /api/menu/available
 // @access  Public
 const getAvailableMenuItems = asyncHandler(async (req, res) => {
-  const menuItems = await MenuItem.find({ isAvailable: true });
+  const { search } = req.query;
+  let query = { isAvailable: true };
+
+  if (search) {
+    query.name = { $regex: search, $options: 'i' };
+  }
+
+  const menuItems = await MenuItem.find(query);
   res.json(menuItems);
 });
 
