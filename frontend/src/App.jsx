@@ -68,7 +68,7 @@ function Header() {
                   : 'bg-red-600 text-white hover:bg-red-700'
               }`}
             >
-              Exit
+              Logout
             </button>
           </nav>
         </div>

@@ -126,13 +126,13 @@ const AdminMenuPage = () => {
       <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <h1 className="text-2xl sm:text-3xl font-black text-white italic uppercase tracking-tighter">
-            Menu Lab
+            Menu Management
           </h1>
           <button
             onClick={() => setShowModal(true)}
             className="w-full sm:w-auto bg-chai text-black px-8 py-4 sm:py-2.5 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-chai/10 text-xs"
           >
-            + Create New Item
+            + Add New Item
           </button>
         </div>
 
@@ -169,7 +169,7 @@ const AdminMenuPage = () => {
                 
                 <div className="mt-auto">
                   <div className="flex items-center justify-between mb-6">
-                    <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Market Rate</span>
+                    <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Price</span>
                     <span className="text-2xl font-black text-chai glow-chai">₹{item.price}</span>
                   </div>
 
@@ -182,19 +182,19 @@ const AdminMenuPage = () => {
                           : 'bg-green-500/10 text-green-400 border border-green-500/20 hover:bg-green-500 hover:text-black'
                       }`}
                     >
-                      {item.isAvailable ? 'Delist' : 'Restore'}
+                      {item.isAvailable ? 'Mark Unavailable' : 'Mark Available'}
                     </button>
                     <button
                       onClick={() => openEditModal(item)}
                       className="flex-1 py-4 bg-chai/10 text-chai border border-chai/20 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-chai hover:text-black transition-all"
                     >
-                      Mod
+                      Edit
                     </button>
                     <button
                       onClick={() => deleteItem(item._id)}
                       className="flex-1 py-4 bg-red-500/10 text-red-500 border border-red-500/20 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-red-500 hover:text-white transition-all"
                     >
-                      Rem
+                      Delete
                     </button>
                   </div>
                 </div>
@@ -213,14 +213,14 @@ const AdminMenuPage = () => {
             className="glass-card border border-chai/30 rounded-[2.5rem] p-6 sm:p-10 max-w-lg w-full my-auto shadow-[0_20px_50px_rgba(220,176,126,0.1)]"
           >
             <h2 className="text-2xl sm:text-3xl font-black text-white mb-8 italic uppercase tracking-tighter">
-              {editingItem ? 'Mod Product' : 'New Creation'}
+              {editingItem ? 'Edit Product' : 'Add New Item'}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
                 <div>
                   <label className="block text-[9px] font-black text-chai/40 uppercase tracking-[0.3em] mb-2 px-1">
-                    Label
+                    Item Name
                   </label>
                   <input
                     type="text"
@@ -228,13 +228,13 @@ const AdminMenuPage = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold focus:ring-2 focus:ring-chai outline-none transition-all placeholder-white/10"
-                    placeholder="Signature Chai"
+                    placeholder="Masala Chai"
                   />
                 </div>
 
                 <div>
                   <label className="block text-[9px] font-black text-chai/40 uppercase tracking-[0.3em] mb-2 px-1">
-                    Insight
+                    Description
                   </label>
                   <textarea
                     required
@@ -249,7 +249,7 @@ const AdminMenuPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[9px] font-black text-chai/40 uppercase tracking-[0.3em] mb-2 px-1">
-                      Cost (₹)
+                      Price (₹)
                     </label>
                     <input
                       type="number"
@@ -263,7 +263,7 @@ const AdminMenuPage = () => {
 
                   <div>
                     <label className="block text-[9px] font-black text-chai/40 uppercase tracking-[0.3em] mb-2 px-1">
-                      Section
+                      Category
                     </label>
                     <div className="relative">
                       <select
@@ -288,7 +288,7 @@ const AdminMenuPage = () => {
 
                 <div>
                   <label className="block text-[9px] font-black text-chai/40 uppercase tracking-[0.3em] mb-2 px-1">
-                    Media Source
+                    Image URL
                   </label>
                   <input
                     type="url"
@@ -305,7 +305,7 @@ const AdminMenuPage = () => {
                   type="submit"
                   className="flex-[2] bg-chai text-black py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-chai/10"
                 >
-                  {editingItem ? 'Update' : 'Commit'}
+                  {editingItem ? 'Update' : 'Save'}
                 </button>
                 <button
                   type="button"

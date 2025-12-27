@@ -182,7 +182,7 @@ const AdminOrdersPage = () => {
       <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <h1 className="text-2xl sm:text-3xl font-black text-white italic uppercase tracking-tighter">
-            Dashboard
+            Admin Dashboard
           </h1>
           <div className="flex gap-3 w-full sm:w-auto">
             <div className="flex-1 sm:flex-none glass-card px-4 py-3 rounded-2xl border border-chai/20 bg-chai/5">
@@ -307,7 +307,7 @@ const AdminOrdersPage = () => {
                     onClick={() => updateStatus(order._id, 'Completed')}
                     className="w-full bg-white text-black py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-chai transition-all shadow-xl shadow-white/5"
                   >
-                    Complete Transaction
+                    Mark Completed
                   </button>
                 </div>
               )}
@@ -351,16 +351,16 @@ const AdminOrdersPage = () => {
                 disabled={actionLoading}
                 className="flex-[2] bg-chai text-black py-4 rounded-2xl font-black hover:bg-white transition-all shadow-xl"
               >
-                {actionLoading ? '...' : 'CONFIRM ACCESS'}
+                {actionLoading ? '...' : 'Confirm'}
               </button>
               <button
                 onClick={() => {
                   setSelectedOrder(null);
                   setPrepMinutes(15);
                 }}
-                className="flex-1 bg-white/5 text-white py-4 rounded-2xl font-bold hover:bg-white/10 transition-all"
+                className="flex-1 bg-white/5 text-white py-4 rounded-2xl font-bold hover:bg-white/10 transition-all uppercase text-xs"
               >
-                CANCEL
+                Cancel
               </button>
             </div>
           </motion.div>
