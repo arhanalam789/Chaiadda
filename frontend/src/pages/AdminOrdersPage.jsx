@@ -167,7 +167,7 @@ const AdminOrdersPage = () => {
   };
 
   const filteredOrders = filter === 'All'
-    ? orders.filter(order => order.status !== 'Completed')
+    ? orders.filter(order => !['Completed', 'Rejected'].includes(order.status))
     : orders.filter(order => order.status === filter);
 
   const activeOrders = orders.filter(o =>
@@ -203,7 +203,7 @@ const AdminOrdersPage = () => {
 
         {/* Filters */}
         <div className="flex gap-2 mb-8 overflow-x-auto pb-4 no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
-          {['All', 'Pending', 'Accepted', 'Ready', 'Completed'].map(status => (
+          {['All', 'Pending', 'Accepted', 'Ready', 'Completed', 'Rejected'].map(status => (
             <button
               key={status}
               onClick={() => setFilter(status)}
@@ -312,6 +312,14 @@ const AdminOrdersPage = () => {
                   >
                     Mark Completed
                   </button>
+                </div>
+              )}
+
+              {order.status === 'Rejected' && order.rejectionReason && (
+                <div className="bg-red-500/5 border border-red-500/10 rounded-2xl p-4">
+                  <p className="text-[10px] font-black text-red-500 uppercase tracking-widest">
+                    Rejection Reason: {order.rejectionReason}
+                  </p>
                 </div>
               )}
             </motion.div>
