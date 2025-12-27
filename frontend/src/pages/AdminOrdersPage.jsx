@@ -167,7 +167,7 @@ const AdminOrdersPage = () => {
   };
 
   const filteredOrders = filter === 'All'
-    ? orders
+    ? orders.filter(order => order.status !== 'Completed')
     : orders.filter(order => order.status === filter);
 
   const activeOrders = orders.filter(o =>
