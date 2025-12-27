@@ -42,12 +42,12 @@ const AdminLoginPage = () => {
             <h1 className="text-3xl font-black text-white tracking-tighter uppercase italic">
               ADMIN <span className="text-chai">PORTAL</span>
             </h1>
-            <p className="text-chai/40 text-[10px] uppercase tracking-[0.3em] font-bold mt-3">Access Verification Required</p>
+            <p className="text-chai/40 text-[10px] uppercase tracking-[0.3em] font-bold mt-3">Admin Login Required</p>
           </div>
           
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-[10px] font-black text-chai/50 uppercase tracking-widest ml-1 mb-2">Registry</label>
+              <label htmlFor="email" className="block text-[10px] font-black text-chai/50 uppercase tracking-widest ml-1 mb-2">Email Address</label>
               <input
                 type="email"
                 id="email"
@@ -59,7 +59,7 @@ const AdminLoginPage = () => {
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-[10px] font-black text-chai/50 uppercase tracking-widest ml-1 mb-2">Sequence</label>
+              <label htmlFor="password" className="block text-[10px] font-black text-chai/50 uppercase tracking-widest ml-1 mb-2">Password</label>
               <input
                 type="password"
                 id="password"
@@ -76,7 +76,7 @@ const AdminLoginPage = () => {
               type="submit"
               className="w-full py-4 text-black font-black bg-chai rounded-2xl shadow-xl shadow-chai/10 transition-all uppercase tracking-widest"
             >
-              Initialize Node
+              Login
             </motion.button>
           </form>
         </div>

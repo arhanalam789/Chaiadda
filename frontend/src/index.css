@@ -26,11 +26,37 @@
 }
 
 .glass-card {
-  background: rgba(26, 26, 26, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(220, 176, 126, 0.2);
+  background: rgba(12, 12, 12, 0.9); /* More opaque background is cheaper than heavy blur */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(220, 176, 126, 0.08);
+  will-change: transform;
 }
 
 .glow-chai {
-  box-shadow: 0 0 15px rgba(220, 176, 126, 0.3);
+  box-shadow: 0 4px 12px rgba(220, 176, 126, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.glow-chai:hover {
+  box-shadow: 0 8px 20px rgba(220, 176, 126, 0.2);
+}
+
+/* Performance optimizations for mobile scrolling */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

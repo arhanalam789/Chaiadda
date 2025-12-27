@@ -141,14 +141,16 @@ const AdminMenuPage = () => {
           {menuItems.map((item) => (
             <motion.div
               key={item._id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
               className="glass-card rounded-3xl overflow-hidden border border-chai/10 hover:border-chai/30 transition-all hover:glow-chai flex flex-col"
             >
               <div className="relative group overflow-hidden">
                 <img
                   src={item.imageUrl}
                   alt={item.name}
+                  loading="lazy"
                   className="w-full h-56 sm:h-52 object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
                 />
                 <div className={`absolute top-4 right-4 px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest ${

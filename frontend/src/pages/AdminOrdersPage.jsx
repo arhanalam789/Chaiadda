@@ -218,8 +218,9 @@ const AdminOrdersPage = () => {
           {filteredOrders.map((order) => (
             <motion.div
               key={order._id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
               className={`glass-card rounded-3xl p-5 sm:p-6 border-l-4 transition-all hover:glow-chai ${getStatusColor(order.status)}`}
             >
               <div className="flex justify-between items-start mb-6">
@@ -326,8 +327,9 @@ const AdminOrdersPage = () => {
       {selectedOrder && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
           <motion.div 
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.2 }}
             className="glass-card border border-chai/30 rounded-3xl p-8 max-w-md w-full mx-4"
           >
             <h3 className="text-2xl font-black text-white mb-6">Preparation Time</h3>
