@@ -40,31 +40,31 @@ const AdminLoginPage = () => {
         <div className="px-8 py-10">
           <div className="mb-10 text-center">
             <h1 className="text-3xl font-black text-white tracking-tighter uppercase italic">
-              ADMIN <span className="text-chai">PORTAL</span>
+              ADMIN <span className="text-chai shadow-[0_0_15px_rgba(220,176,126,0.3)]">PORTAL</span>
             </h1>
-            <p className="text-chai/40 text-[10px] uppercase tracking-[0.3em] font-bold mt-3">Admin Login Required</p>
+            <p className="text-chai text-[10px] uppercase tracking-[0.3em] font-black mt-3">Admin Login Required</p>
           </div>
           
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-[10px] font-black text-chai/50 uppercase tracking-widest ml-1 mb-2">Email Address</label>
+              <label htmlFor="email" className="block text-[10px] font-black text-chai uppercase tracking-widest ml-1 mb-2">Email Address</label>
               <input
                 type="email"
                 id="email"
                 required
-                className="w-full px-5 py-4 text-white bg-black border border-chai/10 rounded-2xl focus:ring-2 focus:ring-chai focus:border-transparent outline-none transition-all placeholder-gray-800"
+                className="w-full px-5 py-4 text-white bg-black border border-chai/20 rounded-2xl focus:ring-2 focus:ring-chai focus:border-transparent outline-none transition-all placeholder-chai/20"
                 placeholder="identity@admin.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-[10px] font-black text-chai/50 uppercase tracking-widest ml-1 mb-2">Password</label>
+              <label htmlFor="password" className="block text-[10px] font-black text-chai uppercase tracking-widest ml-1 mb-2">Password</label>
               <input
                 type="password"
                 id="password"
                 required
-                className="w-full px-5 py-4 text-white bg-black border border-chai/10 rounded-2xl focus:ring-2 focus:ring-chai focus:border-transparent outline-none transition-all placeholder-gray-800"
+                className="w-full px-5 py-4 text-white bg-black border border-chai/20 rounded-2xl focus:ring-2 focus:ring-chai focus:border-transparent outline-none transition-all placeholder-chai/20"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
