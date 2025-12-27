@@ -263,6 +263,38 @@ const cancelOrder = asyncHandler(async (req, res) => {
   res.json(updatedOrder);
 });
 
+// @desc    Get daily sales statistics
+// @route   GET /api/orders/stats/daily
+// @access  Private/Admin
+const getDailyStats = asyncHandler(async (req, res) => {
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date();
+  endOfDay.setHours(23, 59, 59, 999);
+
+  const stats = await Order.aggregate([
+    {
+      $match: {
+        status: 'Completed',
+        placedAt: { $gte: startOfDay, $lte: endOfDay }
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        totalSales: { $sum: '$totalPrice' },
+        orderCount: { $sum: 1 }
+      }
+    }
+  ]);
+
+  res.json({
+    totalSales: stats.length > 0 ? stats[0].totalSales : 0,
+    orderCount: stats.length > 0 ? stats[0].orderCount : 0
+  });
+});
+
 module.exports = {
   setIO,
   placeOrder,
@@ -272,5 +304,6 @@ module.exports = {
   acceptOrder,
   rejectOrder,
   updateOrderStatus,
-  cancelOrder
+  cancelOrder,
+  getDailyStats
 };

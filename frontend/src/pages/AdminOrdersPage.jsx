@@ -13,10 +13,12 @@ const AdminOrdersPage = () => {
   const [prepMinutes, setPrepMinutes] = useState(15);
   const [rejectionReason, setRejectionReason] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
+  const [dailyStats, setDailyStats] = useState({ totalSales: 0, orderCount: 0 });
   const { socket, joinAdmin } = useSocket();
 
   useEffect(() => {
     fetchOrders();
+    fetchDailyStats();
     
     // Join admin room for real-time updates
     if (socket) {
@@ -41,6 +43,8 @@ const AdminOrdersPage = () => {
             order._id === updatedOrder._id ? updatedOrder : order
           )
         );
+        // Refresh stats on any order update (especially completion)
+        fetchDailyStats();
       });
     }
 
@@ -63,6 +67,18 @@ const AdminOrdersPage = () => {
       toast.error('Failed to load orders');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchDailyStats = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const { data } = await axios.get(`${API_URL}/api/orders/stats/daily`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setDailyStats(data);
+    } catch (error) {
+      console.error('Failed to fetch daily stats:', error);
     }
   };
 
@@ -124,6 +140,9 @@ const AdminOrdersPage = () => {
       );
       toast.success(`Order marked as ${newStatus}`);
       fetchOrders();
+      if (newStatus === 'Completed') {
+        fetchDailyStats();
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to update status');
     }
@@ -165,9 +184,15 @@ const AdminOrdersPage = () => {
           <h1 className="text-3xl font-bold text-chai tracking-tight">
             Admin Dashboard
           </h1>
-          <div className="glass-card px-4 py-2 rounded-xl border border-chai/20">
-            <span className="text-sm text-chai/70">Active Orders:</span>
-            <span className="ml-2 text-2xl font-bold text-white">{activeOrders.length}</span>
+          <div className="flex gap-4">
+            <div className="glass-card px-4 py-2 rounded-xl border border-chai/20 bg-chai/5">
+              <span className="text-[10px] font-black uppercase tracking-widest text-chai/50 block mb-1">Today's Revenue</span>
+              <span className="text-2xl font-black text-white glow-chai">₹{dailyStats.totalSales}</span>
+            </div>
+            <div className="glass-card px-4 py-2 rounded-xl border border-chai/20">
+              <span className="text-[10px] font-black uppercase tracking-widest text-chai/50 block mb-1">Active Orders</span>
+              <span className="text-2xl font-black text-white">{activeOrders.length}</span>
+            </div>
           </div>
         </div>
 

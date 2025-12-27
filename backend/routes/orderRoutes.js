@@ -8,13 +8,15 @@ const {
   acceptOrder,
   rejectOrder,
   updateOrderStatus,
-  cancelOrder
+  cancelOrder,
+  getDailyStats
 } = require('../controllers/orderController');
 const { protect, admin } = require('../middleware/authMiddleware');
 
 // User routes
 router.post('/', protect, placeOrder);
 router.get('/my-orders', protect, getMyOrders);
+router.get('/stats/daily', protect, admin, getDailyStats);
 router.get('/:id', protect, getOrder);
 router.post('/:id/cancel', protect, cancelOrder);
 
