@@ -12,6 +12,7 @@ const AdminOrdersPage = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [prepMinutes, setPrepMinutes] = useState(15);
   const [rejectionReason, setRejectionReason] = useState('');
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
   const [dailyStats, setDailyStats] = useState({ totalSales: 0, orderCount: 0 });
   const { socket, joinAdmin } = useSocket();
@@ -108,25 +109,29 @@ const AdminOrdersPage = () => {
     }
   };
 
-  const rejectOrder = async (orderId) => {
+  const rejectOrder = async () => {
     if (!rejectionReason.trim()) {
       toast.error('Please provide rejection reason');
       return;
     }
 
     const token = localStorage.getItem('token');
+    setActionLoading(true);
     try {
       await axios.patch(
-        `${API_URL}/api/orders/${orderId}/reject`,
+        `${API_URL}/api/orders/${selectedOrder}/reject`,
         { reason: rejectionReason },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast.success('Order rejected');
       setSelectedOrder(null);
+      setIsRejectModalOpen(false);
       setRejectionReason('');
       fetchOrders();
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to reject order');
+    } finally {
+      setActionLoading(false);
     }
   };
 
@@ -272,11 +277,8 @@ const AdminOrdersPage = () => {
                   </button>
                   <button
                     onClick={() => {
-                      const reason = prompt('Enter rejection reason:');
-                      if (reason) {
-                        setRejectionReason(reason);
-                        rejectOrder(order._id);
-                      }
+                      setSelectedOrder(order._id);
+                      setIsRejectModalOpen(true);
                     }}
                     className="flex-1 bg-white/5 border border-white/10 text-red-400 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all"
                   >
@@ -324,7 +326,7 @@ const AdminOrdersPage = () => {
       </div>
 
       {/* Accept Order Modal */}
-      {selectedOrder && (
+      {selectedOrder && !isRejectModalOpen && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
@@ -361,6 +363,52 @@ const AdminOrdersPage = () => {
                   setPrepMinutes(15);
                 }}
                 className="flex-1 bg-white/5 text-white py-4 rounded-2xl font-bold hover:bg-white/10 transition-all uppercase text-xs"
+              >
+                Cancel
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Reject Order Modal */}
+      {selectedOrder && isRejectModalOpen && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
+          <motion.div 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.2 }}
+            className="glass-card border border-red-500/30 rounded-3xl p-8 max-w-md w-full mx-4"
+          >
+            <h3 className="text-2xl font-black text-white mb-6 uppercase italic tracking-tighter">Decline Order</h3>
+            
+            <label className="block text-[10px] font-black text-chai uppercase tracking-widest ml-1 mb-2">
+              Reason for Rejection
+            </label>
+            <textarea
+              required
+              rows="3"
+              value={rejectionReason}
+              onChange={(e) => setRejectionReason(e.target.value)}
+              placeholder="e.g., Item out of stock, Kitchen closed..."
+              className="w-full px-5 py-4 bg-black border border-chai/20 rounded-2xl text-white text-sm font-medium focus:ring-2 focus:ring-red-500 focus:outline-none transition-all placeholder-white/10 mb-8 resize-none"
+            />
+
+            <div className="flex gap-4">
+              <button
+                onClick={rejectOrder}
+                disabled={actionLoading}
+                className="flex-[2] bg-red-500 text-white py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-red-600 transition-all shadow-xl shadow-red-500/10"
+              >
+                {actionLoading ? '...' : 'Reject Order'}
+              </button>
+              <button
+                onClick={() => {
+                  setSelectedOrder(null);
+                  setIsRejectModalOpen(false);
+                  setRejectionReason('');
+                }}
+                className="flex-1 bg-white/5 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-white/10 transition-all"
               >
                 Cancel
               </button>
