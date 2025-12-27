@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema({
   otpExpires: {
     type: Date,
   },
+  role: {
+    type: String,
+    default: 'user'
+  },
 }, {
   timestamps: true,
 });

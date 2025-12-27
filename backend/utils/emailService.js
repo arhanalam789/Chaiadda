@@ -11,8 +11,8 @@ const sendOtpEmail = async (email, otp) => {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-      // Network settings (Top Level)
-      family: 4, // Force IPv4 to prevent Gmail timeout on Render/IPv6
+      // Network settings
+      family: 4, // Force IPv4
       connectionTimeout: 30000, 
       greetingTimeout: 10000,
       logger: true,
@@ -23,7 +23,7 @@ const sendOtpEmail = async (email, otp) => {
       from: process.env.EMAIL_USER,
       to: email,
       subject: 'Chai Adda Login OTP',
-      html: `
+      html: ` 
         <div style="font-family: Arial, sans-serif; padding: 20px;">
           <h2>Login Verification</h2>
           <p>Your OTP for Chai Adda login is:</p>

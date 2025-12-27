@@ -10,10 +10,16 @@ const generateToken = require('../utils/generateToken');
 const loginUser = asyncHandler(async (req, res) => {
   const { email } = req.body;
 
-  if (!email || !email.endsWith('@nst.rishihood.edu.in')) {
+  if (!email || !email.endsWith('rishihood.edu.in')) {
     res.status(400);
-    throw new Error('Please use a valid college email ending with @nst.rishihood.edu.in');
+    throw new Error('Please use a valid college email ending with rishihood.edu.in');
   }
+
+  // Extract name from email (part before @)
+  const nameFromEmail = email.split('@')[0]
+    .split('.')
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 
   // Generate 6-digit OTP
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -24,6 +30,7 @@ const loginUser = asyncHandler(async (req, res) => {
     { email },
     { 
       email, 
+      name: nameFromEmail, // Automatically set/update name from email
       otp, 
       otpExpires
     },
@@ -61,7 +68,7 @@ const verifyOtp = asyncHandler(async (req, res) => {
       email: user.email,
       email: user.email,
       role: 'user',
-      token: generateToken(user._id),
+      token: generateToken(user._id, 'user'),
     });
   } else {
     res.status(401);
@@ -85,7 +92,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
       name: admin.name,
       email: admin.email,
       role: 'admin',
-      token: generateToken(admin._id),
+      token: generateToken(admin._id, 'admin'),
     });
   } else {
     res.status(401);

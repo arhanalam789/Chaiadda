@@ -1,12 +1,24 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
-const ProtectedRoute = () => {
-  // Simple check for token existence. 
-  // For production, you might want to decode/verify expiration, 
-  // but presence is enough for client-side routing protection.
+const ProtectedRoute = ({ adminOnly = false }) => {
   const token = localStorage.getItem('token');
 
-  return token ? <Outlet /> : <Navigate to="/" replace />;
+  if (!token) {
+    return <Navigate to={adminOnly ? "/admin" : "/"} replace />;
+  }
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const userRole = payload.role || 'user';
+
+    if (adminOnly && userRole !== 'admin') {
+      return <Navigate to="/menu" replace />; // Students trying to access admin pages
+    }
+
+    return <Outlet />;
+  } catch (e) {
+    return <Navigate to="/" replace />;
+  }
 };
 
 export default ProtectedRoute;

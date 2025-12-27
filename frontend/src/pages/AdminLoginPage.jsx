@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import API_URL from '../config';
 
 const AdminLoginPage = () => {
@@ -19,65 +19,64 @@ const AdminLoginPage = () => {
       localStorage.setItem('adminInfo', JSON.stringify(data));
       localStorage.setItem('token', data.token);
       toast.success('Admin Access Granted');
-      setTimeout(() => navigate('/admin/dashboard'), 800);
+      setTimeout(() => navigate('/admin/orders'), 800);
     } catch (err) {
       toast.error(err.response?.data?.message || 'Invalid credentials');
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 bg-gray-900 relative overflow-hidden">
-      <Toaster position="bottom-right" reverseOrder={false} />
+    <div className="flex items-center justify-center min-h-screen p-4 bg-black relative overflow-hidden">
       
       {/* Background Grid Animation */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8 }}
-        className="w-full max-w-sm overflow-hidden bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-700 z-10"
+        className="w-full max-w-sm overflow-hidden glass-card rounded-3xl shadow-2xl border border-chai/20 z-10"
       >
-        <div className="px-6 py-8">
-          <div className="mb-8 text-center">
-            <h1 className="text-2xl font-bold text-white tracking-wider">
-              ADMIN <span className="text-blue-500">PORTAL</span>
+        <div className="px-8 py-10">
+          <div className="mb-10 text-center">
+            <h1 className="text-3xl font-black text-white tracking-tighter uppercase italic">
+              ADMIN <span className="text-chai">PORTAL</span>
             </h1>
-            <p className="text-gray-400 text-xs uppercase tracking-widest mt-2">Authorized Personnel Only</p>
+            <p className="text-chai/40 text-[10px] uppercase tracking-[0.3em] font-bold mt-3">Access Verification Required</p>
           </div>
           
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email Address</label>
+              <label htmlFor="email" className="block text-[10px] font-black text-chai/50 uppercase tracking-widest ml-1 mb-2">Registry</label>
               <input
                 type="email"
                 id="email"
                 required
-                className="w-full px-4 py-3 mt-1 text-white bg-gray-900/50 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder-gray-600 focus:bg-gray-900"
-                placeholder="admin@example.com"
+                className="w-full px-5 py-4 text-white bg-black border border-chai/10 rounded-2xl focus:ring-2 focus:ring-chai focus:border-transparent outline-none transition-all placeholder-gray-800"
+                placeholder="identity@admin.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300">Password</label>
+              <label htmlFor="password" className="block text-[10px] font-black text-chai/50 uppercase tracking-widest ml-1 mb-2">Sequence</label>
               <input
                 type="password"
                 id="password"
                 required
-                className="w-full px-4 py-3 mt-1 text-white bg-gray-900/50 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder-gray-600 focus:bg-gray-900"
+                className="w-full px-5 py-4 text-white bg-black border border-chai/10 rounded-2xl focus:ring-2 focus:ring-chai focus:border-transparent outline-none transition-all placeholder-gray-800"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <motion.button
-              whileHover={{ scale: 1.02, backgroundColor: "#2563EB" }}
+              whileHover={{ scale: 1.02, backgroundColor: "#ffffff", color: "#000000" }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full py-3.5 text-white font-bold bg-blue-600 rounded-xl shadow-lg transition-all"
+              className="w-full py-4 text-black font-black bg-chai rounded-2xl shadow-xl shadow-chai/10 transition-all uppercase tracking-widest"
             >
-              Access Dashboard
+              Initialize Node
             </motion.button>
           </form>
         </div>

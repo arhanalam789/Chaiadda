@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import Loader from '../components/Loader';
 import API_URL from '../config';
 
@@ -43,7 +43,7 @@ const LoginPage = () => {
       localStorage.setItem('userInfo', JSON.stringify(data));
       localStorage.setItem('token', data.token);
       toast.success('Login Successful!');
-      setTimeout(() => navigate('/dashboard'), 1000);
+      setTimeout(() => navigate('/menu'), 1000);
     } catch (err) {
       setLoading(false);
       toast.error(err.response?.data?.message || 'Invalid OTP');
@@ -69,7 +69,7 @@ const LoginPage = () => {
         className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"
       ></motion.div>
 
-      <Toaster position="top-center" reverseOrder={false} />
+
       {loading && <Loader />}
 
       <motion.div 

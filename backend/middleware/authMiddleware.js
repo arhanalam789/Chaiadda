@@ -15,13 +15,18 @@ const protect = asyncHandler(async (req, res, next) => {
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET || 'chaiadda');
 
-      // Check if it's a User or Admin
-      // Try resolving User first
-      let user = await User.findById(decoded.id).select('-otp -otpExpires');
-      
+      // Check role from token to decide which collection to query
+      let user;
+      if (decoded.role === 'admin') {
+        user = await Admin.findById(decoded.id).select('-password');
+      } else {
+        user = await User.findById(decoded.id).select('-otp -otpExpires');
+      }
+
+      // Fallback: If role wasn't in token (old token), try both
       if (!user) {
-         // Try resolving Admin if not user
-         user = await Admin.findById(decoded.id).select('-password');
+        user = await User.findById(decoded.id).select('-otp -otpExpires') || 
+               await Admin.findById(decoded.id).select('-password');
       }
 
       if (!user) {
