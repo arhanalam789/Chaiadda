@@ -11,7 +11,23 @@ const MenuPage = () => {
   const [cart, setCart] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showCart, setShowCart] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const containerStats = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05
+      }
+    }
+  };
+
+  const itemStats = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
 
   const categories = ['All', 'Beverages', 'Snacks', 'Meals', 'Desserts', 'Other'];
 
@@ -48,7 +64,7 @@ const MenuPage = () => {
   const addToCart = (item) => {
     const existingItem = cart.find(c => c._id === item._id);
     let newCart;
-    
+
     if (existingItem) {
       newCart = cart.map(c =>
         c._id === item._id ? { ...c, quantity: c.quantity + 1 } : c
@@ -56,7 +72,7 @@ const MenuPage = () => {
     } else {
       newCart = [...cart, { ...item, quantity: 1 }];
     }
-    
+
     setCart(newCart);
     localStorage.setItem('cart', JSON.stringify(newCart));
     toast.success(`${item.name} added to cart`);
@@ -70,7 +86,7 @@ const MenuPage = () => {
       }
       return item;
     }).filter(Boolean);
-    
+
     setCart(newCart);
     localStorage.setItem('cart', JSON.stringify(newCart));
   };
@@ -151,7 +167,7 @@ const MenuPage = () => {
 
             <button
               onClick={() => setShowCart(!showCart)}
-              className="w-full sm:w-auto relative group bg-chai text-black px-6 py-3 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-chai/10 text-[10px]"
+              className="w-full sm:w-auto relative group bg-chai text-black px-6 py-3 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-chai/10 text-[10px] tap-effect"
             >
               Order Bag ({cart.length})
               {cart.length > 0 && (
@@ -171,11 +187,10 @@ const MenuPage = () => {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-6 py-2.5 rounded-2xl whitespace-nowrap transition-all font-black text-[10px] uppercase tracking-widest ${
-                selectedCategory === cat
+              className={`px-6 py-2.5 rounded-2xl whitespace-nowrap transition-all font-black text-[10px] uppercase tracking-widest ${selectedCategory === cat
                   ? 'bg-chai text-black shadow-lg shadow-chai/20'
                   : 'bg-white/5 text-chai/60 border border-white/5 hover:bg-white/10'
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -201,7 +216,7 @@ const MenuPage = () => {
                   loading="lazy"
                   className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                 />
-                <div className="absolute top-4 right-4 px-3 py-1.5 rounded-xl bg-chai/20 backdrop-blur-md border border-chai/30 text-[9px] font-black text-white uppercase tracking-widest">
+                <div className="absolute top-4 right-4 px-3 py-1.5 rounded-xl bg-chai/90 border border-chai/30 text-[9px] font-black text-black uppercase tracking-widest shadow-lg">
                   {item.category}
                 </div>
               </div>
