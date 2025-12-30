@@ -11,7 +11,6 @@ const MenuPage = () => {
   const [cart, setCart] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showCart, setShowCart] = useState(false);
-  const [showCart, setShowCart] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const containerStats = {
@@ -188,8 +187,8 @@ const MenuPage = () => {
               key={cat}
               onClick={() => setSelectedCategory(cat)}
               className={`px-6 py-2.5 rounded-2xl whitespace-nowrap transition-all font-black text-[10px] uppercase tracking-widest ${selectedCategory === cat
-                  ? 'bg-chai text-black shadow-lg shadow-chai/20'
-                  : 'bg-white/5 text-chai/60 border border-white/5 hover:bg-white/10'
+                ? 'bg-chai text-black shadow-lg shadow-chai/20'
+                : 'bg-white/5 text-chai/60 border border-white/5 hover:bg-white/10'
                 }`}
             >
               {cat}
@@ -200,45 +199,55 @@ const MenuPage = () => {
 
       {/* Menu Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredItems.map((item) => (
-            <motion.div
-              key={item._id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="glass-card rounded-[2.5rem] overflow-hidden border border-chai/10 hover:border-chai/30 transition-all hover:glow-chai flex flex-col group"
-            >
-              <div className="relative overflow-hidden aspect-[4/3]">
-                <img
-                  src={item.imageUrl}
-                  alt={item.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-                />
-                <div className="absolute top-4 right-4 px-3 py-1.5 rounded-xl bg-chai/90 border border-chai/30 text-[9px] font-black text-black uppercase tracking-widest shadow-lg">
-                  {item.category}
-                </div>
-              </div>
-              <div className="p-8 flex-1 flex flex-col">
-                <h3 className="text-xl font-black text-chai italic tracking-tighter mb-2">{item.name}</h3>
-                <p className="text-xs text-white/70 font-medium leading-relaxed mb-8 line-clamp-2">{item.description}</p>
-                <div className="mt-auto flex justify-between items-center">
-                  <div className="flex flex-col">
-                    <span className="text-[9px] font-black text-white/60 uppercase tracking-widest mb-1">Standard Rate</span>
-                    <span className="text-2xl font-black text-chai glow-chai">₹{item.price}</span>
+        <motion.div
+          layout
+          variants={containerStats}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredItems.map((item) => (
+              <motion.div
+                key={item._id}
+                layout
+                variants={itemStats}
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                className="glass-card rounded-[2.5rem] overflow-hidden border border-chai/10 hover:border-chai/30 transition-all hover:glow-chai flex flex-col group"
+              >
+                <div className="relative overflow-hidden aspect-[4/3]">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+                  />
+                  <div className="absolute top-4 right-4 px-3 py-1.5 rounded-xl bg-chai/90 border border-chai/30 text-[9px] font-black text-black uppercase tracking-widest shadow-lg">
+                    {item.category}
                   </div>
-                  <button
-                    onClick={() => addToCart(item)}
-                    className="bg-chai/10 text-chai border border-chai/20 px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-chai hover:text-black transition-all shadow-xl shadow-chai/5"
-                  >
-                    + Add to Bag
-                  </button>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                <div className="p-8 flex-1 flex flex-col">
+                  <h3 className="text-xl font-black text-chai italic tracking-tighter mb-2">{item.name}</h3>
+                  <p className="text-xs text-white/70 font-medium leading-relaxed mb-8 line-clamp-2">{item.description}</p>
+                  <div className="mt-auto flex justify-between items-center">
+                    <div className="flex flex-col">
+                      <span className="text-[9px] font-black text-white/60 uppercase tracking-widest mb-1">Standard Rate</span>
+                      <span className="text-2xl font-black text-chai glow-chai">₹{item.price}</span>
+                    </div>
+                    <button
+                      onClick={() => addToCart(item)}
+                      className="bg-chai/10 text-chai border border-chai/20 px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-chai hover:text-black transition-all shadow-xl shadow-chai/5 tap-effect"
+                    >
+                      + Add to Bag
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
 
       {/* Cart Sidebar */}
