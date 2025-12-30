@@ -9,6 +9,7 @@ const connectDB = require('./config/db');
 dotenv.config();
 
 const app = express();
+app.set('trust proxy', 1); // Trust first proxy (Render load balancer)
 const httpServer = createServer(app);
 const PORT = process.env.PORT || 5001;
 
@@ -41,7 +42,7 @@ app.use(express.json());
 // Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 1000, 
+  max: 1000,
   message: 'Too many requests from this IP, please try again after 15 minutes',
   standardHeaders: true,
   legacyHeaders: false,
@@ -62,19 +63,19 @@ const io = new Server(httpServer, {
 io.on('connection', (socket) => {
   const activeCount = io.engine.clientsCount;
   console.log(`Client connected: ${socket.id}. Total Active: ${activeCount}`);
-  
+
   // Join admin room
   socket.on('joinAdmin', () => {
     socket.join('admin');
     console.log('Admin joined:', socket.id);
   });
-  
+
   // Join user room
   socket.on('joinUser', (userId) => {
     socket.join(`user_${userId}`);
     console.log(`User ${userId} joined:`, socket.id);
   });
-  
+
   socket.on('disconnect', () => {
     console.log('Client disconnected:', socket.id);
   });
