@@ -3,16 +3,14 @@ const nodemailer = require('nodemailer');
 const sendOtpEmail = async (email, otp) => {
   try {
     const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
+      host: 'smtp-relay.brevo.com',
       port: 587,
       secure: false, // Use TLS
-      requireTLS: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
       // Network settings
-      family: 4, // Force IPv4
       connectionTimeout: 30000, 
       greetingTimeout: 10000,
       logger: true,

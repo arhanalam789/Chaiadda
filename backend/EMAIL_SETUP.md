@@ -1,52 +1,42 @@
-# Email Service Setup - Outlook SMTP
+# Email Service Setup - Brevo SMTP
 
 ## What Changed
-Switched from Gmail SMTP to Outlook SMTP to avoid Render's port blocking.
+Switched to Brevo (formerly Sendinblue) SMTP Relay for better deliverability and to avoid port blocking issues on cloud platforms like Render.
 
 ## Required Environment Variables
 
 Update your `.env` file and Render environment variables:
 
 ```env
-EMAIL_USER=your-outlook-email@outlook.com
-EMAIL_PASS=your-outlook-password
+EMAIL_USER=your-brevo-login-email
+EMAIL_PASS=your-brevo-smtp-key
 ```
 
 ## Setup Instructions
 
-### 1. Create/Use an Outlook Account
-- Go to https://outlook.com and sign up or use existing account
-- **Important**: If you have 2FA enabled, you'll need an App Password (see below)
+### 1. Create a Brevo Account
+- Go to [Brevo](https://www.brevo.com/) and sign up.
 
-### 2. Generate App Password (if 2FA is enabled)
-1. Go to https://account.microsoft.com/security
-2. Click "Advanced security options"
-3. Under "App passwords", click "Create a new app password"
-4. Copy the generated password (you'll use this as `EMAIL_PASS`)
+### 2. Get SMTP Credentials
+1. Log into your dashboard.
+2. Go to **Transactional** > **Settings** > **SMTP & API**.
+3. Generate a new SMTP Key.
+4. Note your **Login Email** and the **generated SMTP Key**.
 
 ### 3. Update Environment Variables
 
 **Local (.env file):**
 ```env
-EMAIL_USER=youremail@outlook.com
-EMAIL_PASS=your-app-password-or-regular-password
+EMAIL_USER=9f023e001@smtp-brevo.com
+EMAIL_PASS=your-smtp-key-here
 ```
 
 **Render Dashboard:**
-1. Go to your backend service on Render
-2. Navigate to "Environment" tab
-3. Update or add:
-   - `EMAIL_USER` = your Outlook email
-   - `EMAIL_PASS` = your App Password (or regular password if no 2FA)
-4. Save changes (will trigger redeploy)
+1. Go to your backend service.
+2. Navigate to "Environment".
+3. Add/Update:
+   - `EMAIL_USER`: Your Brevo login email
+   - `EMAIL_PASS`: Your Brevo SMTP Master Password/Key
 
 ## Testing
-After updating:
-1. Commit and push changes to GitHub
-2. Render will auto-redeploy
-3. Test OTP sending from your Vercel frontend
-
-## Why This Should Work
-- Outlook SMTP is completely **FREE** with no daily limits
-- Uses different servers than Gmail, likely not blocked by Render
-- Fully compatible with Nodemailer
+- Run `node test-email.js` in the backend directory to verify configuration.
