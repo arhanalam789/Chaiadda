@@ -11,14 +11,14 @@ const sendOtpEmail = async (email, otp) => {
         pass: process.env.EMAIL_PASS,
       },
       // Network settings
-      connectionTimeout: 30000, 
+      connectionTimeout: 30000,
       greetingTimeout: 10000,
       logger: true,
       debug: true
     });
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
       to: email,
       subject: 'Chai Adda Login OTP',
       html: ` 
