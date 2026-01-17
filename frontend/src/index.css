@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --chai-color: #dcb07e;
+  --chai-dark: #8b5e3c;
+  --chai-light: #f5deb3;
+}
+
+.admin-dark-theme {
+  background-color: #000000;
+  color: var(--chai-color);
+}
+
+.text-chai {
+  color: var(--chai-color);
+}
+
+.bg-chai {
+  background-color: var(--chai-color);
+}
+
+.border-chai {
+  border-color: var(--chai-color);
+}
+
+.glass-card {
+  background: rgba(20, 20, 20, 0.95); /* High opacity, almost solid for performance */
+  border: 1px solid rgba(220, 176, 126, 0.1);
+  will-change: transform; /* Hint to browser to promote to layer */
+}
+
+/* Reduced blur for backdrop only if supported and cheap (can cause lag on weak GPUs) */
+@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .glass-card {
+    background: rgba(12, 12, 12, 0.85);
+    backdrop-filter: blur(8px); /* slightly reduced blur */
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+.glow-chai {
+  box-shadow: 0 4px 20px -5px rgba(220, 176, 126, 0.15); /* Softer, cheaper shadow */
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+}
+
+.glow-chai:hover {
+  transform: translateY(-4px); /* 3D lift effect */
+  box-shadow: 0 12px 30px -8px rgba(220, 176, 126, 0.25);
+}
+
+.tap-effect:active {
+  transform: scale(0.96);
+}
+
+/* Performance optimizations for mobile scrolling */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  background-color: #000000;
+  color: #ffffff;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
